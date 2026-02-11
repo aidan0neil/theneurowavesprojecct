@@ -40,9 +40,7 @@
     <section class="form-section">
       <h2>Registration</h2>
       <div id="form-message" class="message" role="alert" aria-live="polite"></div>
-      <form id="signup-form" data-race="Half-Marathon" name="signup" method="POST" data-netlify="true" netlify netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="signup">
-        <input type="hidden" name="race" value="Half-Marathon">
+      <form id="signup-form" data-race="Half-Marathon" action="/api/signup" method="POST">
         <div class="form-grid">
           <div class="form-group">
             <label for="firstName">First name <span style="color: var(--error);">*</span></label>
