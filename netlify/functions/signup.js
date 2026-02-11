@@ -5,7 +5,6 @@ const Mailgun = require('mailgun.js');
 
 // Netlify functions use a different path structure
 const SIGNUPS_PATH = '/tmp/signups.csv'; // Use /tmp for serverless functions
-const RELEASE_FORM_PATH = path.join(__dirname, '../../release-forms/release-form.pdf');
 
 const CSV_HEADERS = [
   'Timestamp',
@@ -67,7 +66,7 @@ exports.handler = async (event, context) => {
     // Email functionality using Mailgun
     const emailEnabled = true; // Enable email for participant notifications
     
-    // Send email to participant with liability waiver
+    // Send email to participant with confirmation
     if (emailEnabled && body.email) {
       try {
         const mailgun = new Mailgun(formData);
@@ -79,9 +78,8 @@ exports.handler = async (event, context) => {
         const emailData = {
           from: process.env.MAILGUN_FROM_EMAIL,
           to: body.email,
-          subject: `NeuroWaves Marathon - Liability Waiver for ${race}`,
-          text: `Thank you for registering for the ${race}! Please find your liability waiver attached. Complete it and bring it on race day.`,
-          attachment: fs.createReadStream(RELEASE_FORM_PATH)
+          subject: `NeuroWaves Marathon - Registration Confirmation for ${race}`,
+          text: `Thank you for registering for the ${race}! Your registration has been recorded. We will send you the liability waiver separately. Please check your spam folder if you don't see an email from us.`
         };
 
         await mg.messages.create(process.env.MAILGUN_DOMAIN, emailData);
@@ -92,8 +90,8 @@ exports.handler = async (event, context) => {
     }
     
     const message = emailEnabled
-      ? 'Registration recorded. Thank you! Check your email for your release form—fill it out and bring it on race day.'
-      : 'Registration recorded. Thank you! We\'ll be in touch with next steps. Please check your spam folder if nothing comes through to your inbox. Thank you!';
+      ? 'Registration recorded! Thank you! Please check your email for a confirmation message.'
+      : 'Registration recorded! Thank you! We\'ll be in touch with next steps.';
 
     return {
       statusCode: 200,
