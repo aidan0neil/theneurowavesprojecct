@@ -1,0 +1,4 @@
+node_modules/
+signups.csv
+.env
+.DS_Store

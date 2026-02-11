@@ -1,0 +1,5 @@
+<svg width="300" height="100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="100" fill="#7B43A4"/>
+  <text x="150" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">Neuro</text>
+  <text x="150" y="65" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#A87CDB" text-anchor="middle">Waves</text>
+</svg>
