@@ -53,3 +53,4 @@
 
 [functions]
   directory = "netlify/functions"
+  included_files = ["release-forms/release-form.pdf", "public/release-form.pdf"]
