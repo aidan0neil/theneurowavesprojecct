@@ -90,7 +90,9 @@ MAILGUN_FROM_EMAIL=noreply@your-domain.com
 ## Important Notes
 
 ### Form Submissions
-- Form data is stored in a temporary CSV file in the serverless function
+- Form data is durably stored in Netlify Blobs (`race-signups` store by default)
+- Optional: set `NETLIFY_SIGNUPS_STORE` to customize the Blob store name
+- A temporary CSV is still written in function runtime for local/dev visibility
 - For production, consider using Netlify Forms or a database service
 - Email functionality requires environment variables
 
