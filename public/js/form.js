@@ -1,5 +1,5 @@
 /**
- * Simple Netlify form handler for basic validation and success messages
+ * Simple Netlify form handler with splash page redirect
  */
 (function () {
   document.addEventListener('DOMContentLoaded', function () {
@@ -30,7 +30,7 @@
 
       if (!waiverAccepted) {
         e.preventDefault();
-        messageEl.textContent = 'Please accept the waiver to continue.';
+        messageEl.textContent = 'Please accept waiver to continue.';
         messageEl.className = 'message error';
         return;
       }
@@ -40,10 +40,13 @@
         submitBtn.disabled = true;
         submitBtn.textContent = 'Submitting…';
       }
-      messageEl.textContent = 'Submitting...';
+      messageEl.textContent = 'Submitting registration...';
       messageEl.className = 'message';
 
-      // Let Netlify handle the form submission naturally
+      // Let Netlify handle form submission, then redirect after a short delay
+      setTimeout(function() {
+        window.location.href = '/registration-complete.html';
+      }, 2000);
     });
   });
 })();
