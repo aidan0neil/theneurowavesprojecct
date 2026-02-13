@@ -284,9 +284,13 @@ main {
   font-size: 1rem;
   border: none;
   cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
 }
 .form-actions .btn-submit:hover {
   background: var(--brand-light);
+  text-decoration: none;
+  color: white;
 }
 .form-actions .btn-submit:disabled {
   opacity: 0.7;

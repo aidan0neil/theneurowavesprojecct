@@ -27,6 +27,21 @@
   to = "/5k.html"
   status = 301
 
+[[redirects]]
+  from = "/waiver-download"
+  to = "/waiver-download.html"
+  status = 301
+
+[[redirects]]
+  from = "/release-form.pdf"
+  to = "/release-form.pdf"
+  status = 200
+
+[[redirects]]
+  from = "/waiver-download.html"
+  to = "/waiver-download.html"
+  status = 200
+
 
 # Handle static assets (CSS, JS, images) - BEFORE catch-all
 [[redirects]]
@@ -53,4 +68,3 @@
 
 [functions]
   directory = "netlify/functions"
-  included_files = ["release-forms/release-form.pdf", "public/release-form.pdf"]
