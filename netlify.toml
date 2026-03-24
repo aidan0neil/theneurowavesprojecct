@@ -13,13 +13,8 @@
 
 # Pretty URLs for pages
 [[redirects]]
-  from = "/marathon"
-  to = "/marathon.html"
-  status = 301
-
-[[redirects]]
-  from = "/half-marathon"
-  to = "/half-marathon.html"
+  from = "/10k"
+  to = "/10k.html"
   status = 301
 
 [[redirects]]
