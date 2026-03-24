@@ -43,6 +43,11 @@
   status = 200
 
 
+[[redirects]]
+  from = "/release-forms/*"
+  to = "/release-forms/:splat"
+  status = 200
+
 # Handle static assets (CSS, JS, images) - BEFORE catch-all
 [[redirects]]
   from = "/css/*"
