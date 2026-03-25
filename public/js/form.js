@@ -1,49 +1,94 @@
 /**
- * Simple Netlify form handler
+ * Registration form handler:
+ * 1) Validate required fields
+ * 2) POST to /api/signup
+ * 3) Redirect to success page after API confirms save
  */
 (function () {
+  function setMessage(messageEl, text, tone) {
+    if (!messageEl) return;
+    messageEl.textContent = text;
+    messageEl.className = tone ? 'message ' + tone : 'message';
+  }
+
+  function getPayload(form) {
+    var payload = {};
+    var formData = new FormData(form);
+    formData.forEach(function (value, key) {
+      payload[key] = typeof value === 'string' ? value.trim() : value;
+    });
+
+    payload.waiverAccepted = form.querySelector('[name="waiverAccepted"]')?.checked || false;
+    payload.race = payload.race || form.getAttribute('data-race') || '';
+    return payload;
+  }
+
+  function setSubmittingState(submitBtn, isSubmitting, initialLabel) {
+    if (!submitBtn) return;
+    submitBtn.disabled = isSubmitting;
+    submitBtn.textContent = isSubmitting ? 'Submitting…' : initialLabel;
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     var form = document.getElementById('signup-form');
     if (!form) return;
 
     var messageEl = document.getElementById('form-message');
     var submitBtn = form.querySelector('.btn-submit');
+    var initialSubmitLabel = submitBtn ? submitBtn.textContent : 'Submit registration';
 
-    form.addEventListener('submit', function (e) {
-      if (!messageEl) return;
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-      // Basic validation
-      var firstName = form.querySelector('[name="firstName"]')?.value?.trim() || '';
-      var lastName = form.querySelector('[name="lastName"]')?.value?.trim() || '';
-      var email = form.querySelector('[name="email"]')?.value?.trim() || '';
-      var phone = form.querySelector('[name="phone"]')?.value?.trim() || '';
-      var emergencyContact = form.querySelector('[name="emergencyContact"]')?.value?.trim() || '';
-      var emergencyPhone = form.querySelector('[name="emergencyPhone"]')?.value?.trim() || '';
+      setMessage(messageEl, '', '');
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        setMessage(messageEl, 'Please fill in all required fields.', 'error');
+        return;
+      }
+
       var waiverAccepted = form.querySelector('[name="waiverAccepted"]')?.checked || false;
-
-      if (!firstName || !lastName || !email || !phone || !emergencyContact || !emergencyPhone) {
-        e.preventDefault();
-        messageEl.textContent = 'Please fill in all required fields.';
-        messageEl.className = 'message error';
-        return;
-      }
-
       if (!waiverAccepted) {
-        e.preventDefault();
-        messageEl.textContent = 'Please accept waiver to continue.';
-        messageEl.className = 'message error';
+        setMessage(messageEl, 'Please accept the waiver to continue.', 'error');
         return;
       }
 
-      // Show submitting message
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Submitting…';
-      }
-      messageEl.textContent = 'Submitting registration...';
-      messageEl.className = 'message';
+      var payload = getPayload(form);
+      setSubmittingState(submitBtn, true, initialSubmitLabel);
+      setMessage(messageEl, 'Submitting registration...', '');
 
-      // Let Netlify handle the form submission and redirect
+      try {
+        var response = await fetch('/api/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        var result = {};
+        try {
+          result = await response.json();
+        } catch (_) {
+          // If JSON parsing fails, fall through to generic error handling.
+        }
+
+        if (!response.ok || !result.ok) {
+          throw new Error(result.message || 'Registration could not be saved. Please try again.');
+        }
+
+        setMessage(messageEl, result.message || 'Registration recorded! Redirecting...', 'success');
+        window.location.assign('/signup-success.html');
+      } catch (error) {
+        setSubmittingState(submitBtn, false, initialSubmitLabel);
+        setMessage(
+          messageEl,
+          error?.message || 'Network error while submitting. Please try again.',
+          'error'
+        );
+      }
     });
   });
 })();

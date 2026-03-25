@@ -109,13 +109,18 @@ async function persistSignupRecord(record) {
 
   // Persist in Netlify Blobs for durable production storage.
   if (!getStore) return;
-  const store = getStore({ name: process.env.NETLIFY_SIGNUPS_STORE || 'race-signups' });
-  const safeTs = record.timestamp.replace(/[:.]/g, '-');
-  const recordId = typeof crypto.randomUUID === 'function'
-    ? crypto.randomUUID()
-    : crypto.createHash('sha1').update(record.email + record.timestamp + Math.random()).digest('hex');
-  const key = `${safeTs}-${recordId}.json`;
-  await store.set(key, JSON.stringify(record));
+  try {
+    const store = getStore({ name: process.env.NETLIFY_SIGNUPS_STORE || 'race-signups' });
+    const safeTs = record.timestamp.replace(/[:.]/g, '-');
+    const recordId = typeof crypto.randomUUID === 'function'
+      ? crypto.randomUUID()
+      : crypto.createHash('sha1').update(record.email + record.timestamp + Math.random()).digest('hex');
+    const key = `${safeTs}-${recordId}.json`;
+    await store.set(key, JSON.stringify(record));
+  } catch (err) {
+    // Keep registration successful even if Blobs is unavailable (local/dev).
+    console.warn('Blobs persistence skipped:', err?.message || err);
+  }
 }
 
 exports.handler = async (event, context) => {
