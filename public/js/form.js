@@ -43,10 +43,8 @@
       messageEl.textContent = 'Submitting registration...';
       messageEl.className = 'message';
 
-      // Let Netlify handle form submission, then redirect after a short delay
-      setTimeout(function() {
-        window.location.href = '/waiver-download.html';
-      }, 2000);
+      // Let Netlify handle the form submission naturally
+      // The browser will handle the form submission and show Netlify's success page
     });
   });
 })();

@@ -39,9 +39,10 @@
     <section class="form-section">
       <h2>Registration</h2>
       <div id="form-message" class="message" role="alert" aria-live="polite"></div>
-      <form id="signup-form" data-race="5K" name="signup" method="POST" action="/waiver-download" data-netlify="true" netlify-honeypot="bot-field">
+      <form id="signup-form" data-race="5K" name="signup" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="signup">
         <input type="hidden" name="race" value="5K">
+        <input type="hidden" name="success-page" value="/waiver-download.html">
         <div class="form-grid">
           <div class="form-group">
             <label for="firstName">First name <span style="color: var(--error);">*</span></label>
