@@ -206,14 +206,6 @@ main {
 .race-header .breadcrumb a { color: var(--text-muted); }
 .race-header .breadcrumb a:hover { color: var(--brand); }
 
-/* T-shirt notice */
-.tshirt-notice {
-  color: var(--text);
-  padding: 1rem 1.25rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  font-weight: 500;
-}
 /* Form */
 .form-section {
   background: var(--card-bg);
