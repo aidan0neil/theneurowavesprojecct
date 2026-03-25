@@ -59,12 +59,5 @@
   to = "/images/:splat"
   status = 200
 
-# Handle 404s by serving index.html (for SPA-like behavior)
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = true
-
 [functions]
   directory = "netlify/functions"
