@@ -1,5 +1,5 @@
 /**
- * Simple Netlify form handler with splash page redirect
+ * Simple Netlify form handler
  */
 (function () {
   document.addEventListener('DOMContentLoaded', function () {
@@ -43,8 +43,7 @@
       messageEl.textContent = 'Submitting registration...';
       messageEl.className = 'message';
 
-      // Let Netlify handle the form submission naturally
-      // The browser will handle the form submission and show Netlify's success page
+      // Let Netlify handle the form submission and redirect
     });
   });
 })();
